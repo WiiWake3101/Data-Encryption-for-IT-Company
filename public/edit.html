@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Employee</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            "50": "#eff6ff",
+                            "100": "#dbeafe",
+                            "200": "#bfdbfe",
+                            "300": "#93c5fd",
+                            "400": "#60a5fa",
+                            "500": "#3b82f6",
+                            "600": "#2563eb",
+                            "700": "#1d4ed8",
+                            "800": "#1e40af",
+                            "900": "#1e3a8a",
+                            "950": "#172554"
+                        }
+                    }
+                },
+                fontFamily: {
+                    'body': [
+                        'Inter', 'ui-sans-serif', 'system-ui', '-apple-system',
+                        'system-ui', 'Segoe UI', 'Roboto', 'Helvetica Neue',
+                        'Arial', 'Noto Sans', 'sans-serif',
+                        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+                        'Noto Color Emoji'
+                    ]
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-100">
+    <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+          <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo">
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">CodeCrafters</span>
+          </a>
+          <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+            <button type="button"
+            onclick="logout()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Log
+              out</button>
+            <button data-collapse-toggle="navbar-sticky" type="button"
+              class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              aria-controls="navbar-sticky" aria-expanded="false">
+              <span class="sr-only">Open main menu</span>
+              <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M1 1h15M1 7h15M1 13h15" />
+              </svg>
+            </button>
+          </div>
+          <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+            <ul
+              class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              <li>
+                <a href="/dashboard"
+                  class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  aria-current="page">Home</a>
+              </li>
+              <li>
+                <a href="/add"
+                  class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Add</a>
+              </li>
+              <li>
+                <a href="/view"
+                  class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">View</a>
+              </li>
+              <li>
+                <a href="/update"
+                  class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500">Update</a>
+              </li>
+              <li>
+                <a href="/delete"
+                  class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Delete</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <form class="max-w-md mx-auto mt-20" id="employeeSearchForm" onsubmit="return fetchEmployeeData(event)">
+        <label for="default-search"
+            class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+        <div class="relative">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                </svg>
+            </div>
+            <input type="search" id="employeeId"
+                class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Enter Employee ID to show the data" required />
+            <button type="submit"
+                class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+        </div>
+    </form>
+
+
+    <div class="max-w-4xl mx-auto mt-5 p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold mb-6 text-gray-900 dark:text-white">Employee Information</h2>
+        <form id="employeeForm" disabled>
+            <div class="grid gap-6 mb-6 md:grid-cols-2">
+                <div>
+                    <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">First
+                        name</label>
+                    <input type="text" id="first_name"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="John" required disabled />
+                </div>
+                <div>
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Last
+                        name</label>
+                    <input type="text" id="last_name"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Doe" required disabled />
+                </div>
+                <div>
+                    <label for="department"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Department</label>
+                    <select id="department"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        required onchange="updatePositions()" disabled>
+                        <option selected disabled value="">Select department</option>
+                        <option value="IT Department">IT Department</option>
+                        <option value="HR Department">HR Department</option>
+                        <option value="Sales Department">Sales Department</option>
+                        <option value="Marketing Department">Marketing Department</option>
+                        <option value="Finance Department">Finance Department</option>
+                        <option value="Customer Support">Customer Support</option>
+                        <option value="Administration Department">Administration Department</option>
+                    </select>
+                </div>
+                <div class="relative">
+                    <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone
+                        number</label>
+                    <div class="flex items-center">
+                        <button
+                            class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-l-lg hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                            type="button" disabled>
+                            +91
+                        </button>
+                        <input type="text" id="phone"
+                            class="rounded-none rounded-r-lg bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="1234567890" required disabled />
+                    </div>
+                </div>
+                <div>
+                    <label for="email"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                    <input type="email" id="email"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="john.doe@example.com" required disabled />
+                </div>
+                <div>
+                    <label for="dob" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of
+                        Birth</label>
+                    <input type="date" id="dob"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        required disabled />
+                </div>
+                <div>
+                    <label for="gender"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Gender</label>
+                    <select id="gender"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        required disabled>
+                        <option selected disabled value="">Select gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="position"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Position</label>
+                    <select id="position"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        required disabled>
+                        <option selected disabled value="">Select position</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="salary"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Salary</label>
+                    <input type="number" id="salary"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="50000" required disabled />
+                </div>
+                <div>
+                    <label for="social_security_number"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Social Security
+                        Number</label>
+                    <input type="text" id="social_security_number"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="XXX-XX-XXXX" required disabled />
+                </div>
+                <div>
+                    <label for="bank_account" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Bank
+                        Account</label>
+                    <input type="text" id="bank_account"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="123456789012" required disabled />
+                </div>
+            </div>
+            <button type="submit"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update</button>
+        </form>
+    </div>
+
+    <script>
+        // Function to update positions based on selected department
+        function updatePositions() {
+            const department = document.getElementById('department').value;
+            const positionSelect = document.getElementById('position');
+
+            // Clear existing options
+            positionSelect.innerHTML = '<option selected disabled value="">Select position</option>';
+
+            // Define positions for each department
+            const positions = {
+                "IT Department": [
+                    "Software Engineer",
+                    "System Administrator",
+                    "Data Analyst",
+                    "Web Developer",
+                    "Network Engineer",
+                    "DevOps Engineer",
+                    "Database Administrator",
+                    "IT Support Specialist",
+                    "Security Analyst",
+                    "Cloud Engineer"
+                ],
+                "HR Department": [
+                    "HR Manager",
+                    "Recruitment Specialist",
+                    "HR Coordinator",
+                    "Employee Relations Manager",
+                    "Training Specialist",
+                    "Compensation Analyst",
+                    "HR Assistant",
+                    "Talent Development Manager",
+                    "Payroll Specialist",
+                    "HR Business Partner"
+                ],
+                "Sales Department": [
+                    "Sales Manager",
+                    "Sales Associate",
+                    "Business Development Executive",
+                    "Account Executive",
+                    "Sales Engineer",
+                    "Regional Sales Manager",
+                    "Inside Sales Representative",
+                    "Sales Support Specialist",
+                    "Key Account Manager",
+                    "Sales Analyst"
+                ],
+                "Marketing Department": [
+                    "Marketing Director",
+                    "Brand Manager",
+                    "Social Media Specialist",
+                    "Marketing Analyst",
+                    "Content Strategist",
+                    "SEO Specialist",
+                    "Product Marketing Manager",
+                    "Event Coordinator",
+                    "Digital Marketing Specialist",
+                    "Marketing Operations Manager"
+                ],
+                "Finance Department": [
+                    "Chief Financial Officer",
+                    "Financial Controller",
+                    "Treasury Analyst",
+                    "Budget Analyst",
+                    "Credit Analyst",
+                    "Investment Analyst",
+                    "Financial Analyst",
+                    "Risk Management Analyst",
+                    "Accounts Payable Specialist",
+                    "Payroll Manager"
+                ],
+                "Customer Support": [
+                    "Customer Service Manager",
+                    "Support Agent",
+                    "Customer Experience Specialist",
+                    "Technical Support Specialist",
+                    "Customer Support Specialist",
+                    "Customer Care Associate",
+                    "Help Desk Technician",
+                    "Customer Success Manager",
+                    "Call Center Representative",
+                    "Customer Support Lead"
+                ],
+                "Administration Department": [
+                    "Office Manager",
+                    "Administrative Assistant",
+                    "Executive Assistant",
+                    "Receptionist",
+                    "Facilities Coordinator",
+                    "Office Administrator",
+                    "Clerical Assistant",
+                    "Records Manager",
+                    "Administrative Officer",
+                    "Personal Assistant"
+                ]
+            };
+
+            // Populate position options based on the selected department
+            if (positions[department]) {
+                positions[department].forEach(position => {
+                    const option = document.createElement('option');
+                    option.value = position;
+                    option.textContent = position;
+                    positionSelect.appendChild(option);
+                });
+            }
+        }
+        function fetchEmployeeData(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            const employeeId = document.getElementById('employeeId').value;
+
+            console.log("Fetching data for Employee ID:", employeeId); // Log the employee ID being fetched
+
+            // Fetch employee data from the server
+            fetch(`/employee/${employeeId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log("Fetched data:", data); // Log the fetched data
+
+                    // Populate the input fields with fetched data
+                    document.getElementById('first_name').value = data.firstName;
+                    document.getElementById('last_name').value = data.lastName;
+                    document.getElementById('department').value = data.department;
+                    updatePositions(); // Call this to populate positions based on department
+                    document.getElementById('position').value = data.position;
+                    document.getElementById('email').value = data.email;
+                    document.getElementById('phone').value = data.phone;
+                    document.getElementById('gender').value = data.gender;
+                    document.getElementById('dob').value = data.dob.split('T')[0]; // Format date for input
+                    document.getElementById('social_security_number').value = data.socialSecurityNumber;
+                    document.getElementById('bank_account').value = data.bankAccount;
+
+                    // Enable the input fields for editing
+                    enableEditing();
+                })
+                .catch(error => {
+                    console.error('Error fetching employee data:', error);
+                    alert('Error fetching employee data. Please check the Employee ID.');
+                });
+
+            return false; // Prevent form submission to server
+        }
+
+        // Function to enable editing of the form fields
+        function enableEditing() {
+            const fields = [
+                'first_name',
+                'last_name',
+                'department',
+                'position',
+                'email',
+                'phone',
+                'gender',
+                'salary',
+                'dob',
+                'social_security_number',
+                'bank_account'
+            ];
+
+            fields.forEach(fieldId => {
+                console.log("Enabling field:", fieldId); // Log which fields are being enabled
+                document.getElementById(fieldId).disabled = false;
+            });
+        };
+        document.getElementById('employeeForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+            const employeeId = document.getElementById('employeeId').value;
+
+            // Check if employeeId is valid
+            if (!employeeId) {
+                alert('Please enter a valid Employee ID.');
+                return;
+            }
+
+            // Gather updated data from form fields
+            const updatedData = {
+                first_name: document.getElementById('first_name').value,
+                last_name: document.getElementById('last_name').value,
+                department: document.getElementById('department').value,
+                position: document.getElementById('position').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                gender: document.getElementById('gender').value,
+                dob: document.getElementById('dob').value,
+                salary: document.getElementById('salary').value,
+                social_security_number: document.getElementById('social_security_number').value,
+                bank_account: document.getElementById('bank_account').value
+            };
+
+            // Log the updated data for debugging
+            console.log('Updated data to send:', updatedData);
+
+            // Send updated data to server
+            fetch(`/edit/${employeeId}`, { // Change to /edit/{employeeId}
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        // Log the response status and text for debugging
+                        return response.text().then(text => {
+                            throw new Error(`Failed to update employee data: ${response.status} - ${text}`);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Employee data updated successfully for ID: ' + employeeId); // Optionally include the ID
+                })
+                .catch(error => {
+                    console.error('Error updating employee data:', error);
+                    alert('Failed to update employee data: ' + error.message);
+                });
+        });
+        function logout() {
+            fetch('/logout', {
+              method: 'GET', // or 'POST' if your server requires it
+              credentials: 'include' // This is important to include cookies in the request
+            })
+            .then(response => {
+              if (response.redirected) {
+                window.location.href = response.url; // Redirect to the login page
+              }
+            })
+            .catch(error => {
+              console.error('Error during logout:', error);
+            });
+          }                                                
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <footer>
+        <div class="px-4 py-6 bg-gray-100 dark:bg-gray-700 md:flex md:items-center md:justify-between">
+          <span class="text-sm text-gray-500 dark:text-gray-300 sm:text-center">© 2024 <a href="">CodeCrafters</a>. All Rights Reserved.
+          </span>
+        </div>
+      </div>
+      </footer>
+</body>
+
+</html>
