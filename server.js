@@ -287,7 +287,7 @@ app.put("/edit/:id", isAuthenticated, (req, res) => {
 });
 
 // Logout route
-app.get("/log-out", (req, res) => {
+app.get("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       return res.status(500).json({ error: "Failed to logout" });
@@ -300,4 +300,5 @@ app.get("/log-out", (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  console.log(`Access the login page at: http://localhost:${PORT}/log-in`);
 });
