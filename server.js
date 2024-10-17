@@ -193,6 +193,7 @@ app.get("/employee/:id", isAuthenticated, (req, res) => {
         phone: employee.phone,
         gender: employee.gender,
         dob: employee.dob,
+        salary: employee.salary,
         socialSecurityNumber: CryptoJS.AES.decrypt(
           employee.social_security_number,
           process.env.SECRET_KEY

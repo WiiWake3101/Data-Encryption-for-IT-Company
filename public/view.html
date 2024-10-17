@@ -353,7 +353,7 @@
                     const localDob = dobUTC.toLocaleDateString('en-CA');  // Output in YYYY-MM-DD format
                     document.getElementById('dob').value = localDob;   // Set the value of the date input
                     document.getElementById('gender').value = data.gender; 
-                    document.getElementById('salary').value = parseInt(data.salary);
+                    document.getElementById('salary').value = Number(data.salary);
                     document.getElementById('social_security_number').value = data.socialSecurityNumber;
                     document.getElementById('bank_account').value = data.bankAccount;
                 })
