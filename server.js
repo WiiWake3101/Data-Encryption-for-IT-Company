@@ -53,16 +53,18 @@ app.get("/log-in", (req, res) => {
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
+  // Function to check login credentials in the database
   checkLogin(username, password, (err, results) => {
     if (err) {
+      // Return a 500 response in case of a database error
       return res.status(500).json({ error: "Database error" });
     }
     if (results.length > 0) {
-      // Successful login
-      req.session.user = username; // Store the username in the session
+      // If login is successful, save the username to the session
+      req.session.user = username; 
       return res.redirect("/dashboard"); // Redirect to dashboard
     } else {
-      // Failed login
+      // If login fails, return a 401 status with an error message
       return res.status(401).json({ error: "Invalid credentials" });
     }
   });
