@@ -314,6 +314,15 @@
         // Handle form submission
         document.getElementById('employeeForm').addEventListener('submit', function (event) {
             event.preventDefault();
+            // Get form values
+            const phone = document.getElementById('phone').value;
+
+            // Phone number validation
+            const phoneRegex = /^\d{10}$/; // Ensures the phone number has exactly 10 digits
+            if (!phoneRegex.test(phone)) {
+                alert('Please enter a valid 10-digit phone number.');
+                return; // Stop form submission if validation fails
+            }
             const employeeData = {
                 first_name: document.getElementById('first_name').value,
                 last_name: document.getElementById('last_name').value,
@@ -368,11 +377,12 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
     <footer>
         <div class="px-4 py-6 bg-gray-100 dark:bg-gray-700 md:flex md:items-center md:justify-between">
-          <span class="text-sm text-gray-500 dark:text-gray-300 sm:text-center">© 2024 <a href="">CodeCrafters</a>. All Rights Reserved.
-          </span>
+            <span class="text-sm text-gray-500 dark:text-gray-300 sm:text-center">© 2024 <a href="">CodeCrafters</a>.
+                All Rights Reserved.
+            </span>
         </div>
-      </div>
-      </footer>
+        </div>
+    </footer>
 </body>
 
 </html>
