@@ -96,8 +96,8 @@ CREATE TABLE employees (
     phone VARCHAR(255) NOT NULL,
     gender VARCHAR(255) NOT NULL,
     dob DATE NOT NULL,
-    social_security_number VARCHAR(255) NOT NULL,
-    bank_account VARCHAR(255) NOT NULL
+    social_security_number VARCHAR(255) NOT NULL  UNIQUE,
+    bank_account VARCHAR(255) NOT NULL UNIQUE
 );
 ```
 
