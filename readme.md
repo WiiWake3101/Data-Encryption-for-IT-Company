@@ -56,7 +56,7 @@ In today's digital age, protecting sensitive information is paramount. Encryptio
 2. Install the required dependencies:
 
    ```bash
-   npm install
+   npm install express crypto-js express-session mysql2 dotenv
    ```
 
 3. Create a `.env` file in the project root directory with the following structure:
